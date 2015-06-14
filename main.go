@@ -22,7 +22,7 @@ func updateIPTables(ipList []string) {
 	exec.Command("iptables", "-F", "GOTRUST").Run()
 
 	// Allow Serf to maintain membership
-	exec.Command("iptables", "-A", "GOTRUST", "--destination-port", "7946", "-j", "ACCEPT").Run()
+	exec.Command("iptables", "-A", "GOTRUST", "-p", "udp", "--destination-port", "7946", "-j", "ACCEPT").Run()
 
 	// List all the available friends
 	for _, ip := range ipList {
