@@ -1,0 +1,18 @@
+[Unit]
+Description=GoTrust cluster trust service
+After=syslog.target
+After=network.target
+
+[Service]
+ExecStartPre=/bin/sh -c ' \
+  mkdir -p /opt/bin; \
+  if [ ! -f /opt/bin/gotrust ]; then \
+    wget -N -P /tmp https://github.com/SkyWriter/gotrust/raw/master/dist/gotrust_linux_amd64; \
+    install -g root -o root /tmp/gotrust_linux_amd64 /opt/bin/gotrust; \
+  fi;'
+ExecStart=/opt/bin/gotrust
+Restart=always
+RestartSec=10
+
+[X-Fleet]
+Global=true
